@@ -14,7 +14,8 @@ export default function Appointment (props){
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING"
-  const ERROR = "ERROR";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE ="ERROR_DELETE";
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
@@ -30,25 +31,29 @@ export default function Appointment (props){
   
 
 
- const save =(name,interviewer) =>{
-  if(name && interviewer){
-  const interview = {
-    student: name,
-    interviewer
-  };
-  transition(SAVING);
-  (props.bookInterview(props.id,interview))
-  .then(()=> transition(SHOW))
-  .catch(()=> transition(ERROR))
-
-  } 
-}
-const deleteInterview = () => {
-  console.log("confirme clicked")
-  transition(DELETING);
-   props.cancelInterview(props.id).then(()=> transition(EMPTY)).catch(()=> transition(ERROR))
-
-}
+  function save(name, interviewer) {
+    if(name&&interviewer){
+    const interview = {
+      student: name,
+      interviewer
+    };
+  
+    transition(SAVING);
+  
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
+  
+    }
+  }
+function destroy(event) {
+  transition(DELETING, true);
+  props
+   .cancelInterview(props.id)
+   .then(() => transition(EMPTY))
+   .catch(error => transition(ERROR_DELETE, true));
+ }
 
 const confirm = () => transition(CONFIRM);
 const edit = () => transition(EDIT);
@@ -67,8 +72,8 @@ return (
     mode === SHOW && (
       
      <Show
-      student={props.interview.student}
-      interviewer={props.interview.interviewer}
+      interview={props.interview}
+      // interviewers = {props.interviewers}
       onDelete = {confirm}
       onEdit = {edit}
       />) 
@@ -87,9 +92,9 @@ return (
     onCancel={back}/>)
   }
   {
-    mode === ERROR &&
+    mode === ERROR_DELETE &&
     (<Error
-      message="Error Appointment"
+      message="Appointment can not be deleted."
       onCancel={back}/>)
   }
   {
@@ -99,20 +104,25 @@ return (
   {
     mode === CONFIRM && (<Confirm
     message = "Are sure you would like to cancel the appointment?"
-    onConfrim = {deleteInterview}
+    onConfirm = {destroy}
     onCancel={back}/>)
   }
   {
     mode === EDIT && (<Form
-    
-      student={props.interview.student}
-      interviewers = {props.interviewers}
+      name = {props.interview.student}
       interviewer={props.interview.interviewer.id}
+      interviewers = {props.interviewers}
+      
       onSave={save}
       onCancel={back}
 
     />)
   }
+  {
+    mode === ERROR_SAVE && (<Error
+    message="Appoimemt can not be saved."/>)
+  }
+  
   </article>
 )
  

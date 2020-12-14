@@ -4,7 +4,7 @@ import Button from "components/Button"
 export default function Form(props){
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-  console.log(props);
+  
   function reset() {
     setName("");
     setInterviewer(null);
@@ -21,7 +21,7 @@ export default function Form(props){
     props.onSave(name,interviewer);
     
   }
-  console.log(props)
+ 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     
