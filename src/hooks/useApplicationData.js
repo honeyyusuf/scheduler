@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from "react";
-
-const axios = require('axios');
+import { useState,useEffect } from "react";
+import {getspots,deletespot} from "helpers/selectors"
+import axios from "axios";
 export default function useApplicationData(intitial){
 const [state, setState] = useState({
   day: "Monday",
@@ -33,21 +33,38 @@ useEffect(() => {
 },[]);
 
 function bookInterview(id, interview) {
-  //console.log(id, interview);
+  
   const appointment = {
     ...state.appointments[id],
     interview: { ...interview }
   };
+  
   const appointments = {
     ...state.appointments,
     [id]: appointment
   };
+  const newstate = {...state,appointments}
+    
+    const days = state.days.map((day) => {
+      if (day.name === state.day) {
+        return getspots(newstate,state.day)
+      }else{
+        return day;
+      }
+    }
+    );
+   
+
+  
   
 return axios
     .put(`/api/appointments/${id}`, appointment)
   .then((res) => {
-  console.log(state,appointments);
-  setState((prev) => ({ ...prev, appointments }))
+ 
+  setState((prev) => ({ ...prev, appointments,days}))
+
+  //setState(prev => ({ ...prev, day }));
+
 })
   .catch((error)=>console.log(error));
   //console.log(appointments);
@@ -59,11 +76,22 @@ const cancelInterview = (id)=>{
     ...state.appointments,
     [id]: appointment
   };
+  const newstate = {...state,appointments}
+    
+    const days = state.days.map((day) => {
+      if (day.name === state.day) {
+        return deletespot(newstate,state.day)
+      }else{
+        return day;
+      }
+    }
+    );
+   
   console.log(appointments);
   return axios
     .delete(`/api/appointments/${id}`)
     .then(() => 
-     setState((prev) => ({ ...prev, appointments})))
+     setState((prev) => ({ ...prev, appointments,days})))
      .catch((error)=>console.log(error));
 
 }

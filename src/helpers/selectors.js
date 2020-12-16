@@ -7,7 +7,7 @@ export function getAppointmentsForDay(state, day) {
     return [];
   }
   const appointments = dayFound.appointments.map(appointmentId=>state.appointments[appointmentId]);
-  console.log(appointments)
+  
   return appointments;
   
 };
@@ -44,4 +44,22 @@ export function getInterview(state,interview){
   const Interviewers = dayFound.interviewers.map(interviewerId=>state.interviewers[interviewerId]);
   
   return Interviewers;
+ }
+ export function getspots(state,day){
+
+   
+  const dayof = state.days.find(currentDay => currentDay.name === state.day);
+   
+    const newSpotsday = dayof.spots > 0 && {...dayof,spots: dayof.spots-1}
+    console.log(newSpotsday)
+  return newSpotsday;
+ }
+ export function deletespot(state,day){
+
+   
+  const dayof = state.days.find(currentDay => currentDay.name === state.day);
+   
+    const newSpotsday = dayof.spots > 0 && {...dayof,spots: dayof.spots+1}
+    console.log(newSpotsday)
+  return newSpotsday;
  }

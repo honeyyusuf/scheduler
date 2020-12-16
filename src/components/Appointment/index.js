@@ -59,7 +59,8 @@ const confirm = () => transition(CONFIRM);
 const edit = () => transition(EDIT);
 
 return (
-  <article className="appointment">
+  <article className="appointment" data-testid="appointment" >
+    
   <Header time={props.time}/>
   
   {mode === EMPTY &&
@@ -72,7 +73,9 @@ return (
     mode === SHOW && (
       
      <Show
-      interview={props.interview}
+      //interview={props.interview}
+      student = {props.interview.student}
+      interviewer = {props.interview.interviewer}
       // interviewers = {props.interviewers}
       onDelete = {confirm}
       onEdit = {edit}
@@ -88,7 +91,7 @@ return (
       />)
   }
   {
-    mode === SAVING && (<Status message="Saving Appointment"
+    mode === SAVING && (<Status message="Saving"
     onCancel={back}/>)
   }
   {
@@ -99,11 +102,11 @@ return (
   }
   {
     mode === DELETING  && (<Status 
-      message = "Deleting Appointment" />)
+      message = "Deleting" />)
   }
   {
     mode === CONFIRM && (<Confirm
-    message = "Are sure you would like to cancel the appointment?"
+    message = "Are you sure you would like to delete?"
     onConfirm = {destroy}
     onCancel={back}/>)
   }
