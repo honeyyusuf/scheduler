@@ -26,3 +26,7 @@ npm run storybook
 ```sh
 npm run cypress
 ```
+## Scheduler 
+!["Scheduler"](https://github.com/honeyyusuf/scheduler/blob/master/docs/scheduler.png)
+!["Edit appointment"](https://github.com/honeyyusuf/scheduler/blob/master/docs/scheduler_edit.png)
+!["Deleting appointment"](https://github.com/honeyyusuf/scheduler/blob/master/docs/scheduler_delete.png)
