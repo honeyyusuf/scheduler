@@ -5,21 +5,21 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 
 import Appointment from "components/Appointment";
-import  useApplicationData from "hooks/useApplicationData" 
-import {getAppointmentsForDay ,getInterview,getInterviewersForDay} from "helpers/selectors"
+import useApplicationData from "hooks/useApplicationData"
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors"
 
 
 
 export default function Application(props) {
-  
-  
+
+
   const {
     state,
     setDay,
     bookInterview,
     cancelInterview
   } = useApplicationData();
-  
+
 
   const interviewers = getInterviewersForDay(state, state.day);
 
